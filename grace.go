@@ -29,6 +29,11 @@ func (g *Grace) WaitShutdown() {
 	log.Println(`Shutdown...`)
 }
 
+func (g *Grace) ForceShutdown() {
+	log.Println(`Force shutdown`)
+	g.signal <- syscall.SIGTERM
+}
+
 func (g *Grace) Shutdown(timeout time.Duration, fn func(ctx context.Context) error) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
